@@ -42,3 +42,25 @@ The `./frontend` directory contains a complete React frontend to consume the dat
 Pay special attention to what data the frontend is expecting from each API response to help guide how you format your API. 
 
 [View the README.md within ./frontend for more details.](./frontend/README.md)
+
+## Installation:
+### Backend:
+
+```
+cd ./backend
+python -m virtualenv venv # Create virtual environment
+./venv/Scripts/activate.bat # Activate virtual environment
+pip install -r requirements.txt # Install all requirements
+export FLASK_APP=flaskr
+export FLASK_ENV=development # Run in development mode
+flask run # Run backend server
+```
+
+### Frontend:
+Install Node.JS then at termonal
+```
+cd ./frontend
+npm install # Install dependancies required by front end React project
+npm start # Start front end project
+```
+
