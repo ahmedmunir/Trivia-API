@@ -276,4 +276,4 @@ The API will return three error types when requests fail:
 ```
 ### POST /quizzes
 - General: play the game, send the id of category and list of previous questions, and receive a random a question associated with selected category and it will not part of previous questions.
-- Sample: curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"category":"1", "previous_questions": []}'
+- Sample: curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"category":"1", "previous_questions": "[1]"}'
