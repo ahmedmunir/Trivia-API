@@ -64,3 +64,213 @@ npm install # Install dependancies required by front end React project
 npm start # Start front end project
 ```
 
+## API Reference:
+### Getting Started:
+- Base URL: The base URL for this application will be: **http://127.0.0.1:5000/** and doesn't require authentication or API keys.
+
+### Error Handling:
+Errors are returned as JSON objects in the following format:
+```
+  "success": False,
+  "error": 400,
+  "message": "bad request"
+```
+The API will return three error types when requests fail:
+- 400: Bad request
+- 404: resource not found
+- 422: unprocessable
+
+### Endpoints: 
+
+### GET /categories
+- General: returns a list of categories and success value.
+- Sample: curl http://127.0.0.1:5000/categories
+```
+{
+    "categories": {
+        "1": "Science",
+        "2": "Art",
+        "3": "Geography",
+        "4": "History",
+        "5": "Entertainment",
+        "6": "Sports"
+    },
+    "success": true
+}
+```
+
+### GET /questions:
+- General: returns a list of questions paginated in group of 10, success value, list of categories, total_questions which will frontend code depend on to make pagination and current category value.
+- Sample: curl http://127.0.0.1:5000/questions
+```
+  "categories": {
+      "1": "Science",
+      "2": "Art",
+      "3": "Geography",
+      "4": "History",
+      "5": "Entertainment",
+      "6": "Sports"
+  },
+  "currentCategory": null,
+  "questions": [
+      {
+          "answer": "Maya Angelou",
+          "category": 4,
+          "difficulty": 2,
+          "id": 5,
+          "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+      },
+      {
+          "answer": "Muhammad Ali",
+          "category": 4,
+          "difficulty": 1,
+          "id": 9,
+          "question": "What boxer's original name is Cassius Clay?"
+      },
+      {
+          "answer": "Apollo 13",
+          "category": 5,
+          "difficulty": 4,
+          "id": 2,
+          "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+      },
+      {
+          "answer": "Tom Cruise",
+          "category": 5,
+          "difficulty": 4,
+          "id": 4,
+          "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+      },
+      {
+          "answer": "Edward Scissorhands",
+          "category": 5,
+          "difficulty": 3,
+          "id": 6,
+          "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+      },
+      {
+          "answer": "Brazil",
+          "category": 6,
+          "difficulty": 3,
+          "id": 10,
+          "question": "Which is the only team to play in every soccer World Cup tournament?"
+      },
+      {
+          "answer": "Uruguay",
+          "category": 6,
+          "difficulty": 4,
+          "id": 11,
+          "question": "Which country won the first ever soccer World Cup in 1930?"
+      },
+      {
+          "answer": "George Washington Carver",
+          "category": 4,
+          "difficulty": 2,
+          "id": 12,
+          "question": "Who invented Peanut Butter?"
+      },
+      {
+          "answer": "Lake Victoria",
+          "category": 3,
+          "difficulty": 2,
+          "id": 13,
+          "question": "What is the largest lake in Africa?"
+      },
+      {
+          "answer": "The Palace of Versailles",
+          "category": 3,
+          "difficulty": 3,
+          "id": 14,
+          "question": "In which royal palace would you find the Hall of Mirrors?"
+      }
+  ],
+  "success": true,
+  "total_questions": 19
+```
+### Delete /questions/<int:question_id>
+- General: delete a question using its id, if deletion succeeded the returned value will be success, deleted which points to the id of deleted question.
+- Sample: curl -X DELETE http://127.0.0.1:5000/questions/2
+```
+{
+    "deleted": "2",
+    "success": true
+}
+```
+
+### POST /questions
+- General: create a new question, data that need to be provided at post request are (question, answer, difficullty, category), if succeeded the return value will be success value and the id of created_question
+- Sample: curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"question":"Who won the last ballon d'or?", "answer":"Messi", "difficulty":"1", category: "6"}'
+```
+{
+  "success": true,
+  "created_question": 20
+}
+```
+
+### POST /questions/search
+- General: search for a question using any keyword without depending on case sensetive, the result will be success value, list of all questions that has search keyword, total questons that have search keyword and current category.
+- Sample: curl http://127.0.0.1:5000/questions/search -X POST -H "Content-Type: application/json" -d '{"searchTerm": "go"}'
+```
+{
+    "current_category": null,
+    "questions": [
+        {
+            "answer": "One",
+            "category": 2,
+            "difficulty": 4,
+            "id": 18,
+            "question": "How many paintings did Van Gogh sell in his lifetime?"
+        }
+    ],
+    "success": true,
+    "total_questions": 1
+}
+```
+
+### GET /categories/<int:category_id>/questions:
+- General: get all questions depending on the category id, the result will be success value, list of questions depending on the value of category, total questions and the current category will be the id of category
+- Sample: curl http://127.0.0.1:5000/categories/2/questions
+```
+{
+    "current_category": 2,
+    "questions": [
+        {
+            "answer": "Escher",
+            "category": 2,
+            "difficulty": 1,
+            "id": 16,
+            "question": "Which Dutch graphic artist–initials M C was a creator of optical illusions?"
+        },
+        {
+            "answer": "Mona Lisa",
+            "category": 2,
+            "difficulty": 3,
+            "id": 17,
+            "question": "La Giaconda is better known as what?"
+        },
+        {
+            "answer": "One",
+            "category": 2,
+            "difficulty": 4,
+            "id": 18,
+            "question": "How many paintings did Van Gogh sell in his lifetime?"
+        },
+        {
+            "answer": "Jackson Pollock",
+            "category": 2,
+            "difficulty": 2,
+            "id": 19,
+            "question": "Which American artist was a pioneer of Abstract Expressionism, and a leading exponent of action painting?"
+        },
+        {
+            "answer": "Ahmed",
+            "category": 2,
+            "difficulty": 2,
+            "id": 24,
+            "question": "What is your name"
+        }
+    ],
+    "success": true,
+    "total_questions": 5
+}
+```
