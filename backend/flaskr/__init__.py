@@ -88,7 +88,7 @@ def create_app(test_config=None):
       question.delete()
       return jsonify({
         "success": True,
-        "deleted": question_id
+        "question_deleted_id": question_id
       })
     except:
       abort(422)
@@ -194,14 +194,17 @@ def create_app(test_config=None):
       previous_questions = body.get('previous_questions')
 
       if category['type'] == 'click':
-          available_questions = Question.query.filter(
+          rest_questions = Question.query.filter(
               Question.id.notin_((previous_questions))).all()
       else:
-          available_questions = Question.query.filter_by(
+          rest_questions = Question.query.filter_by(
               category=category['id']).filter(Question.id.notin_((previous_questions))).all()
 
-      new_question = available_questions[random.randrange(
-          0, len(available_questions))].format() if len(available_questions) > 0 else None
+      if rest_questions > 0:
+        random_question_number = random.randrange(0, len(rest_questions))
+        new_question = available_questions[random_question_number].format()
+      else:
+        new_question = None
 
       return jsonify({
           'success': True,
